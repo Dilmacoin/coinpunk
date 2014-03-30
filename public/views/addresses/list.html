@@ -22,7 +22,7 @@
               <div>
                 <strong><%- data.addresses[i].name || 'No Label' %></strong>
                 <span class="addExchangePrice pull-right" style="color: #33CC33;">
-                  <%- coinpunk.wallet.addressReceivedAmount(data.addresses[i].address) %> BTC
+                  <%- coinpunk.wallet.addressReceivedAmount(data.addresses[i].address) %> HUE
                 </span>
               </div>
               <div><%- data.addresses[i].address %></div>
@@ -58,7 +58,7 @@
                     <td><%- data.addresses[i].address %></td>
                     <td>
                       <span class="addExchangePrice">
-                        <%- coinpunk.wallet.addressReceivedAmount(data.addresses[i].address) %> BTC
+                        <%- coinpunk.wallet.addressReceivedAmount(data.addresses[i].address) %> HUE
                       </span>
                     </td>
                     <td>
@@ -91,15 +91,15 @@
       New address creation is temporarily disabled, our apologies for the inconvenience.
     </div>
     <!--
-      <form onsubmit="coinpunk.controllers.addresses.generateNewAddress($('#addressLabel').val()); return false;">
-        <div>
-          Label <small>(optional)</small>: <input id="addressLabel" type="text" style="width: 200px"> <button class="btn btn-primary"><i class="fa fa-plus"></i> Generate</button>
-          <div id="newAddressDialog" class="alert alert-success alert-dismissable hidden">
-            <button type="btn" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <span id="newAddressMessage"></span>
-          </div>
+    <form onsubmit="coinpunk.controllers.addresses.generateNewAddress($('#addressLabel').val()); return false;">
+      <div>
+        Label <small>(optional)</small>: <input id="addressLabel" type="text" style="width: 200px"> <button class="btn btn-primary"><i class="fa fa-plus"></i> Generate</button>
+        <div id="newAddressDialog" class="alert alert-success alert-dismissable hidden">
+          <button type="btn" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <span id="newAddressMessage"></span>
         </div>
-      </form>
+      </div>
+    </form>
     -->
   </div>
 </div>

@@ -1,12 +1,8 @@
-# Coinpunk Installation Procedure
+# Dilmapunk Installation Procedure
 
-This guide will assist you with installing Coinpunk. This document assumes you are running Ubuntu 12.04 LTS, adjustments may need to be made for other OSes.
+This guide will assist you with installing Dilmapunk. This document assumes you are running Ubuntu 12.04 LTS, adjustments may need to be made for other OSes.
 
-If you don't understand how to use this document, **Coinpunk is not for you**. Coinpunk requires a commanding understanding of UNIX system administration to be run safely. If you are learning, you can use Coinpunk's `testnet` mode to ensure that mistakes cannot lead to loss of money.
-
-## System Requirements
-
-A VPS with at least 2GB RAM is needed for the moment, due to the memory usage of bitcoind. This will hopefully be lowered in the future (either from bitcoind becoming more memory efficient, or from Coinpunk switching to a lighter SPV-based node).
+If you don't understand how to use this document, **Dilmapunk is not for you**. Dilmapunk requires a commanding understanding of UNIX system administration to be run safely.
 
 ## Install Prerequisites
 
@@ -51,79 +47,96 @@ Change `appendfsync everysec` to `appendfsync always`.
 
 Restart redis: `sudo service redis-server restart`.
 
-## Install and Configure Bitcoind
+## Install and Configure dilmacoind
 
-Currently Coinpunk depends on a custom build of Bitcoind using [this patch](https://github.com/bitcoin/bitcoin/pull/2861).
+Currently Dilmapunk depends on a custom build of dilmacoind using [this patch](https://github.com/dayreiner/dilmacoin-watchonly).
 
+Install prerequisites:
 ```
-wget https://github.com/sipa/bitcoin/archive/watchonly.tar.gz
-tar -zxf watchonly.tar.gz
-cd bitcoin-watchonly
-sudo add-apt-repository ppa:bitcoin/bitcoin
-sudo apt-get update
-sudo apt-get install libdb4.8++ libdb4.8++-dev pkg-config libprotobuf-dev libminiupnpc8 minissdpd libboost-all-dev ccache libssl-dev
-./autogen.sh
-./configure --without-qt
-make
-sudo make install
+sudo apt-get install libdb4.8++ libdb4.8++-dev pkg-config libprotobuf-dev \
+libminiupnpc8 minissdpd libboost-all-dev ccache libssl-dev
 ```
 
-If you see this error when running configure: `configure: error: Could not find a version of the library!`
-Try running with this command instead: `./configure --with-boost-libdir=/usr/lib/x86_64-linux-gnu --without-qt`
-
-Now you need to configure bitcoind:
-
+Checkout and make [dilmacoin-watchonly](https://github.com/dayreiner/dilmacoin-watchonly):
 ```
-mkdir -p ~/.bitcoin
-vi ~/.bitcoin/bitcoin.conf
+git clone https://github.com/dayreiner/dilmacoin-watchonly.git
+cd dilmacoin-watchonly/src
+make -f makefile.unix USE_UPNP=0 USE_QRCODE=1 USE_IPV6=1
+strip dilmacoind
 ```
 
-And add the following information (set the `rpcuser` and `rpcpassword` to something else:
+Create a user for dilmacoind and move the binary to where it can access it:
+```
+adduser dilmacoin
+mkdir -p ~dilmacoin/bin
+mv dilmacoind /usr/home/dilmacoin/bin
+```
+
+Now you need to configure dilmacoind:
+
+```
+su - dilmacoin
+mkdir -p ~/.dilmacoin
+vi ~/.dilmacoin/dilmacoin.conf
+```
+
+And add the following information (set the `rpcuser` and `rpcpassword` to something else):
 
 ```
 rpcuser=NEWUSERNAME
 rpcpassword=NEWPASSWORD
+rpcallowip=127.0.0.1
+rpcport=5888
+port=5889
 txindex=1
-testnet=1
+server=1
+daemon=1
+addnode=192.241.125.215
+addnode=192.241.125.216
+addnode=192.241.125.217
+addnode=192.241.125.218
+addnode=192.241.125.219
+addnode=192.241.125.220
+addnode=31.220.27.16
+addnode=162.217.249.196
+```
+**If your dilmacoind crashes due to memory consumption**, try limiting your connections by adding `maxconnections=10`. Try further adjusting to 3 if you are still having issues.
+
+Consider adding a startup script for dilmacoind to either init.d or via upstart.
+
+Start dilmacoind as the dilmacoin user:
+
+```
+su - dilmacoin
+dilmacoind &
 ```
 
-**If your bitcoind crashes due to memory consumption**, try limiting your connections by adding `maxconnections=10`. Try further adjusting to 3 if you are still having issues.
+**dilmacoind may take up to an hour (or more, depending on growth) to download the blockchain.** Dilmapunk will not be able to function properly until this has occurred. Please be patient.
 
-If you want to run Coinpunk in production rather than on testnet, remove `testnet=1` from the config. Testnet emulates the production Bitcoin network, but does so in a way that you can't lose money. You can send money to your Coinpunk accounts using Bitcoin Testnet Faucets like [the Mojocoin Testnet3 Faucet](http://faucet.xeno-genesis.com/). I strongly recommend this mode for testing.
+If you want something to monitor dilmacoind to ensure it stays running and start it on system restart, take a look at [Monit](http://mmonit.com/monit/).
 
-Start bitcoind:
-
-```
-bitcoind &
-```
-
-**Bitcoind will take several hours or more to download the blockchain.** Coinpunk will not be able to function properly until this has occurred. Please be patient.
-
-If you want something to monitor bitcoind to ensure it stays running and start it on system restart, take a look at [Monit](http://mmonit.com/monit/).
-
-## Install and Configure Coinpunk
+## Install and Configure Dilmapunk
 
 Go to your user's home directory (`cd ~`), clone the repository and install nodejs dependencies:
 
 ```
-git clone https://github.com/kyledrake/coinpunk.git
-cd coinpunk
+git clone https://github.com/Dilmacoin/dilmapunk.git
+cd dilmapunk
 npm install
 ```
 
-Now you will need to create and configure your config.json file, one for the main folder and one in `public`. From the `coinpunk` directory:
+Now you will need to create and configure your config.json file, one for the main folder and one in `public`. From the `dilmapunk` directory:
 
 ```
 cp config.template.json config.json
 ```
 
-Edit the file to connect to `bitcoind`. Use port `18332` for testnet, `8332` for production. Also remove the `testnet` entry for production:
+Edit the file to connect to `dilmacoind` on port 5888 using the user/password you set when configuring dilmacoind:
 
 ```
 {
-  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:18332",
-  "pricesUrl": "https://bitpay.com/api/rates",
-  "testnet": true,
+  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:5888",
+  "pricesUrl": "http://localhost:8080/rates.json",
   "httpPort": 8080
 }
 ```
@@ -132,15 +145,15 @@ For SSL:
 
 ```
 {
-  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:18332",
-  "pricesUrl": "https://bitpay.com/api/rates",
-  "testnet": true,
-  "httpPort": 8085,
+  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:5888",
+  "pricesUrl": "http://localhost:8080/rates.json",
+  "httpPort": 8080,
   "httpsPort": 8086,
-  "sslKey": "./coinpunk.key",
-  "sslCert": "./coinpunk.crt"
+  "sslKey": "./Dilmapunk.key",
+  "sslCert": "./Dilmapunk.crt"
 }
 ```
+Alternately, you can use Nginx as your SSL endpoint and proxy requests over to Dilmapunk instead of opening your node install directly to the world.
 
 Now copy the client application's config:
 
@@ -148,18 +161,27 @@ Now copy the client application's config:
 cp public/config.template.json public/config.json
 ```
 
-And change `network` to `prod` instead of `testnet` if you are using Coinpunk in production mode.
+And change `network` to `prod` instead of `testnet` to use Dilmapunk in production mode.
 
-## Start Coinpunk
+## Start Dilmapunk
 
-You can start Coinpunk from the command line:
+You can start Dilmapunk from the command line:
 
 ```
 node start.js
 ```
 
+Try to connect by going to http://YOURADDRESS.COM:8080  (If you're using the SSL config then try  http://YOURADDRESS.COM:8085. OR https://YOURADDRESS.COM:8086) If it loads, then you should be ready to use Dilmapunk!
 
-Try to connect by going to http://YOURADDRESS.COM:8080  (If you're using the SSL config then try  http://YOURADDRESS.COM:8085. OR https://YOURADDRESS.COM:8086) If it loads, then you should be ready to use Coinpunk!
+## Dilmacoin Price Cron Job
+
+Edit the crontab of the user you are running dilmapunk as, and insert the following entry:
+
+```
+0,15,30,45 * * * * /home/dilmapunk/dilmapunk/get_vtc_exchange_rate.sh >> /home/dilmapunk/vtcusd.log 2>&1
+```
+
+This will run the get_vtc_exchange_rate.sh script every 15 minutes to grab the current HUE/USD exchange rate. This is a simple hack to get around the lack of a bitpay-style pricing API for coins other than bitcoin.
 
 ## Backing up Database
 
@@ -167,8 +189,8 @@ Redis maintains a file called `/var/lib/redis/dump.rdb`, which is a backup of yo
 
 ## Extra Steps for Contributors
 
-If you want to contribute code to this project, you will need to use Grunt. Grunt is a task-runner that presently handles minifying and uglifying Coinpunk's CSS and JS resources.  Grunt is installed by the `npm install` you ran from the coinpunk directory.
+If you want to contribute code to this project, you will need to use Grunt. Grunt is a task-runner that presently handles minifying and uglifying Dilmapunk's CSS and JS resources.  Grunt is installed by the `npm install` you ran from the Dilmapunk directory.
 
-Running `./node_modules/grunt-cli/bin/grunt` in your Coinpunk directory will minify and uglify everything, and running `./node_modules/grunt-cli/bin/grunt watch` will automatically uglify your JS files when they change.
+Running `./node_modules/grunt-cli/bin/grunt` in your Dilmapunk directory will minify and uglify everything, and running `./node_modules/grunt-cli/bin/grunt watch` will automatically uglify your JS files when they change.
 
 You can also install grunt system-wide with `sudo npm install -g grunt-cli`.

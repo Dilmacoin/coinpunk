@@ -31,12 +31,12 @@ coinpunk.controllers.Tx.prototype.send = function() {
 
   function renderPage() {
     self.getUnspent(function(resp) {
-      coinpunk.router.render('view', 'tx/send', {balance: coinpunk.wallet.safeUnspentBalance()}, function(id) {
-        self.updateExchangeRates(id, false);
-        $('#'+id+" [rel='tooltip']").tooltip();
-      });
-    });
-  };
+     coinpunk.router.render('view', 'tx/send', {balance: coinpunk.wallet.safeUnspentBalance()}, function(id) {
+       self.updateExchangeRates(id, false);
+       $('#'+id+" [rel='tooltip']").tooltip();
+     });
+   });
+ };
 };
 
 coinpunk.controllers.Tx.prototype.sendExchangeUpdate = function() {
@@ -100,7 +100,7 @@ coinpunk.controllers.Tx.prototype.create = function() {
     try {
       new Bitcoin.Address(address, coinpunk.config.network);
     } catch (e) {
-      errors.push('The provided bitcoin address is not valid.');
+      errors.push('The provided dilmacoin address is not valid.');
     }
   }
 
@@ -108,7 +108,7 @@ coinpunk.controllers.Tx.prototype.create = function() {
   
   for(var i=0; i<myAddresses.length;i++) {
     if(myAddresses[i].address == address)
-      errors.push('You cannot send to your own bitcoin wallet.');
+      errors.push('You cannot send to your own dilmacoin wallet.');
   }
 
   if(amount == '' || parseFloat(amount) == 0)
@@ -116,7 +116,7 @@ coinpunk.controllers.Tx.prototype.create = function() {
   else if(/^[0-9]+$|^[0-9]+\.[0-9]+$|^\.[0-9]+$/.exec(amount) === null)
     errors.push('You must have a valid amount to send.');
   else if(coinpunk.wallet.safeUnspentBalance().lessThan(new BigNumber(amount).plus(calculatedFee))) {
-    errors.push('Cannot spend more bitcoins than you currently have.');
+    errors.push('Cannot spend more dilmacoins than you currently have.');
   }
 
   if(errors.length > 0) {
@@ -188,7 +188,7 @@ coinpunk.controllers.Tx.prototype.calculateFee = function() {
 
   var calculatedFee = coinpunk.wallet.calculateFee(amount, address, changeAddress);
   $('#calculatedFee').val(calculatedFee);
-  $('#fee').text(coinpunk.wallet.calculateFee(amount, address, changeAddress)+' BTC');
+  $('#fee').text(coinpunk.wallet.calculateFee(amount, address, changeAddress)+' HUE');
   this.updateExchangeRates('container', false);
 };
 
@@ -216,12 +216,12 @@ coinpunk.controllers.Tx.prototype.scanQR = function(event) {
       return;
     }
 
-    if(uri.protocol() != 'bitcoin')
-      return errorsDiv.removeClass('hidden').text('Not a valid Bitcoin QR code.');
+    if(uri.protocol() != 'dilmacoin')
+      return errorsDiv.removeClass('hidden').text('Not a valid Dilmacoin QR code.');
     
     var address = uri.path();
     if(!address || address == '')
-      return errorsDiv.removeClass('hidden').text('No Bitcoin address found in QR code.');
+      return errorsDiv.removeClass('hidden').text('No Dilmacoin address found in QR code.');
 
     $('#address').val(address);
     

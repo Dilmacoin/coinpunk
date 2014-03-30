@@ -1,3 +1,38 @@
+# DILMAPUNK
+Dilmapunk is a fork of [Coinpunk](https://coinpunk.com/) modified for use on the [Dilmacoin](http://dilmacoin.org) network.
+
+## Notice: Use at your own risk.
+
+Dilmapunk is experimental beta software based on beta software upstream. Be Forewarned. Use at your own risk.
+
+## Who uses Dilmapunk
+
+Like Coinpunk, Dilmapunk is aimed at developers, power users, and sysadmins interested in running their own web-based Dilmacoin wallet.
+
+Dilmapunk is also used to power the open source web-based Dilmacoin wallet service at [vtc.li](http://vtc.li).
+
+## Get Started
+
+Dilmapunk requires the [dilmacoin-watchony](https://github.com/Dilmacoin/dilmacoin-watchonly) version of dilmacoind to function.
+
+See the [Install Guide](docs/INSTALL.md)
+
+## Dilmapunk is for Advanced Users
+
+Like Coinpunk, Dilmacoin is also intended for advanced users only. Kyle says it best:
+
+>## Coinpunk is for Advanced Users
+>
+>If you've never worked on your own server before, and don't know how to do things like backup your database, I strongly recommend using a desktop client or hosted wallet provider like [coinpunk.com](https://coinpunk.com) instead. Coinpunk tries to be simple as possible, but like Gitlab, it does require a lot of knowledge to be run properly.
+
+## Supporting Dilmapunk
+
+Dilmapunk would not be possible without Coinpunk. Please see [below](#help) to see how you can help with the upstream project.
+
+* * *
+
+# Upstream Docs
+
 ## NOTICE: Breaking changes!
 
 Coinpunk updated to the latest version of SJCL, which has fixed a bug that caused PBKDF2 hashes to be inconsistent from the standard.
@@ -50,7 +85,7 @@ If you've never worked on your own server before, and don't know how to do thing
 
 [Click here](https://github.com/kyledrake/coinpunk/graphs/contributors) to see the contributor list.
 
-## How You Can Help
+## <a name="help"></a>How You Can Help
 
 ### Donations
 

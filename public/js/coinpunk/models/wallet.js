@@ -62,7 +62,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     keyPairs.push(newKeyPair);
     return newKeyPair.address;
   };
-  
+
   this.removeAddress = function(address) {
     var i=0;
     for(i=0;i<keyPairs.length;i++)
@@ -92,7 +92,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     }
     return addrs;
   };
-  
+
   this.deleteChangeAddress = function() {
     var newKeyPairs = [];
     for(var i=0; i<keyPairs.length; i++) {
@@ -311,7 +311,7 @@ coinpunk.Wallet = function(walletKey, walletId) {
     }
 
     if(unspentAmt.compareTo(total) < 0) {
-      throw "you do not have enough bitcoins to send this amount";
+      throw "you do not have enough dilmacoins to send this amount";
     }
 
     for(i=0;i<unspent.length;i++) {
