@@ -86,8 +86,8 @@ And add the following information (set the `rpcuser` and `rpcpassword` to someth
 rpcuser=NEWUSERNAME
 rpcpassword=NEWPASSWORD
 rpcallowip=127.0.0.1
-rpcport=5888
-port=5889
+rpcport=21056
+port=11056
 txindex=1
 server=1
 daemon=1
