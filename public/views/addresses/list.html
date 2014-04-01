@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-lg-12 text-center">
-    <h1>Receive Addresses</h2>
+    <h1>Endereços para receber</h1>
       <hr>
   </div>
 </div>
@@ -11,7 +11,7 @@
 
       <% if(data.addresses.length == 0) {%>
 
-        <h4>No receive addresses yet.</h4>
+        <h4>Ainda não tem endereços para receber.</h4>
 
       <% } else { %>
         
@@ -27,7 +27,7 @@
               </div>
               <div><%- data.addresses[i].address %></div>
               
-              <div><a href="#/addresses/request/<%- data.addresses[i].address %>" class="btn btn-primary"><i class="fa fa-qrcode"></i> Request Payment</a></div>
+              <div><a href="#/addresses/request/<%- data.addresses[i].address %>" class="btn btn-primary"><i class="fa fa-qrcode"></i> Solicitar pagamento</a></div>
             </div>
           </div>
           <hr>
@@ -38,11 +38,11 @@
           <table class="table table-bordered table-striped table-hover">
             <thead>
               <tr>
-                <th>Label</th>
-                <th>Address</th>
+                <th>Apelido</th>
+                <th>Endereço</th>
                 <th>
                   <span class="visible-xs visible-sm">Total</span>
-                  <span class="visible-md visible-lg">Total Received</span>
+                  <span class="visible-md visible-lg">Total Recebido</span>
                 </th>
                 <!--
                 <th>Backups</th>
@@ -62,7 +62,7 @@
                       </span>
                     </td>
                     <td>
-                      <a href="#/addresses/request/<%- data.addresses[i].address %>" class="btn btn-primary"><i class="fa fa-qrcode"></i> Request Payment</a>
+                      <a href="#/addresses/request/<%- data.addresses[i].address %>" class="btn btn-primary"><i class="fa fa-qrcode"></i> Soliticar pagamento</a>
                       <!--
                       <a href="#" class="btn btn-info"><i class="fa fa-edit"></i> Edit Label</a>
                       <a href="#" class="btn btn-danger"><i class="fa fa-archive"></i> Archive</a>
@@ -84,13 +84,14 @@
   </div>
 </div>
 
+<!--
 <div class="row">
   <div class="col-lg-6">
     <h2>New Address</h2>
     <div>
       New address creation is temporarily disabled, our apologies for the inconvenience.
     </div>
-    <!--
+
     <form onsubmit="coinpunk.controllers.addresses.generateNewAddress($('#addressLabel').val()); return false;">
       <div>
         Label <small>(optional)</small>: <input id="addressLabel" type="text" style="width: 200px"> <button class="btn btn-primary"><i class="fa fa-plus"></i> Generate</button>
@@ -100,6 +101,7 @@
         </div>
       </div>
     </form>
-    -->
+
   </div>
 </div>
+-->
