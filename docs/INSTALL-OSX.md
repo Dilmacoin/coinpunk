@@ -126,11 +126,11 @@ Now you will need to create and configure your config.json file, one for the mai
 cp config.template.json config.json
 ```
 
-Edit the file to connect to `bitcoind`. Use port `18332` for testnet, `8332` for production. Also remove the `testnet` entry for production:
+Edit the file to connect to `bitcoind`. Use port `11056` for testnet, `8332` for production. Also remove the `testnet` entry for production:
 
 ```
 {
-  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:18332",
+  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:11056",
   "pricesUrl": "https://bitpay.com/api/rates",
   "testnet": true,
   "httpPort": 8080
@@ -141,7 +141,7 @@ For SSL:
 
 ```
 {
-  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:18332",
+  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:11056",
   "pricesUrl": "https://bitpay.com/api/rates",
   "testnet": true,
   "httpPort": 8085,

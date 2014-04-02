@@ -87,18 +87,15 @@ rpcuser=NEWUSERNAME
 rpcpassword=NEWPASSWORD
 rpcallowip=127.0.0.1
 rpcport=21056
-port=11056
-txindex=1
-server=1
+listen=1
 daemon=1
-addnode=192.241.125.215
-addnode=192.241.125.216
-addnode=192.241.125.217
-addnode=192.241.125.218
-addnode=192.241.125.219
-addnode=192.241.125.220
-addnode=31.220.27.16
-addnode=162.217.249.196
+server=1
+rpcallowip=127.0.0.1 
+rpcconnect=127.0.0.1
+rpcallowip=127.0.0.1
+addnode=54.194.99.126
+addnode=54.84.229.24
+
 ```
 **If your dilmacoind crashes due to memory consumption**, try limiting your connections by adding `maxconnections=10`. Try further adjusting to 3 if you are still having issues.
 
@@ -131,11 +128,11 @@ Now you will need to create and configure your config.json file, one for the mai
 cp config.template.json config.json
 ```
 
-Edit the file to connect to `dilmacoind` on port 5888 using the user/password you set when configuring dilmacoind:
+Edit the file to connect to `dilmacoind` on port 11056 using the user/password you set when configuring dilmacoind:
 
 ```
 {
-  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:5888",
+  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:11056",
   "pricesUrl": "http://localhost:8080/rates.json",
   "httpPort": 8080
 }
@@ -145,7 +142,7 @@ For SSL:
 
 ```
 {
-  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:5888",
+  "bitcoind": "http://NEWUSERNAME:NEWPASSWORD@127.0.0.1:11056",
   "pricesUrl": "http://localhost:8080/rates.json",
   "httpPort": 8080,
   "httpsPort": 8086,
@@ -173,15 +170,6 @@ node start.js
 
 Try to connect by going to http://YOURADDRESS.COM:8080  (If you're using the SSL config then try  http://YOURADDRESS.COM:8085. OR https://YOURADDRESS.COM:8086) If it loads, then you should be ready to use Dilmapunk!
 
-## Dilmacoin Price Cron Job
-
-Edit the crontab of the user you are running dilmapunk as, and insert the following entry:
-
-```
-0,15,30,45 * * * * /home/dilmapunk/dilmapunk/get_vtc_exchange_rate.sh >> /home/dilmapunk/vtcusd.log 2>&1
-```
-
-This will run the get_vtc_exchange_rate.sh script every 15 minutes to grab the current HUE/USD exchange rate. This is a simple hack to get around the lack of a bitpay-style pricing API for coins other than bitcoin.
 
 ## Backing up Database
 
