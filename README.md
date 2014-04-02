@@ -1,7 +1,7 @@
 # DILMAPUNK
 Dilmapunk is a fork of [Coinpunk](https://coinpunk.com/) modified for use on the [Dilmacoin](http://dilmacoin.org) network.
 
-# ![Dilmapunk](http://i.imgur.com/zTiiOr3.png)
+# ![Dilmapunk](http://i.imgur.com/FT6ggkJ.png)
 
 ## Notice: Use at your own risk.
 
