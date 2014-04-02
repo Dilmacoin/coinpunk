@@ -1,6 +1,8 @@
 # DILMAPUNK
 Dilmapunk is a fork of [Coinpunk](https://coinpunk.com/) modified for use on the [Dilmacoin](http://dilmacoin.org) network.
 
+# ![Dilmapunk](http://i.imgur.com/zTiiOr3.png)
+
 ## Notice: Use at your own risk.
 
 Dilmapunk is experimental beta software based on beta software upstream. Be Forewarned. Use at your own risk.
